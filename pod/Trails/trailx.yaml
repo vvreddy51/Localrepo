@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: trail5
+spec:
+  containers:
+    - name: postgres
+      image: postgres:16
+      env:
+        - name: POSTGRES_PASSWORD
+          value: a123
+        - name: POSTGRES_USER
+          value: vsh
+        - name: POSTGRES_DB
+          value: emp

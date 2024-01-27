@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: trail7
+spec:
+  restartPolicy: OnFailure
+  initContainers:
+    - name: init1
+      image: alpine
+      args:
+         - sleep
+         - 30s
+    - name: init2
+      image: alpne
+      args:
+         - sleep
+         - 30s
+    - name: init3
+      image: alpine
+  containers:
+    - name: httpd
+      image: httpd:2.4
+    
