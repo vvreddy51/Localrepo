@@ -10,3 +10,7 @@ spec:
       args:
         - sleep
         - 1d
+      resourses:
+        limits:
+          cpu: 500m
+          memory: 256Mi
