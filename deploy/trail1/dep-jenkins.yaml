@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: trai2-deploy
+ name: trail1-deploy
 spec:
   minReadySeconds: 10
   replicas: 10
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels: 
-        app: vsh
+        app: vsh        
         version: "1.0"
     spec:
       containers:
