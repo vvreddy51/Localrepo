@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: trail1-deploy
+  name: trail1-deploy
 spec:
   minReadySeconds: 10
   replicas: 10
@@ -24,7 +24,9 @@ spec:
         - name: jenkins
           image: jenkins/jenkins:jdk-11
           ports:
-            containerPort: 8080
+            - containerPort: 8080
+          
+      
           
       
 
