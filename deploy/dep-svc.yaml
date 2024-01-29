@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-svc
+spec:
+  selector:
+    app: vsh
+  type: NodePort
+  ports:
+    - name: jenkins
+      nodePort: 30001
+      port: 8080
+      targetPort: 8080
