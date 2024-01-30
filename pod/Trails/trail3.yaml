@@ -16,3 +16,7 @@ spec:
           value: vsh
         - name: MYSQL_PASSWORD
           value: a123
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
