@@ -18,11 +18,11 @@ spec:
     metadata:
       labels: 
         app: vsh        
-        version: "1.0"
+        version: "1.1"
     spec:
       containers:
         - name: jenkins
-          image: jenkins/jenkins:jdk11
+          image: nginx
           ports:
             - containerPort: 8080
           
