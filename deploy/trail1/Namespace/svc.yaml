@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-svc
+  namespace: dev
+spec:
+  selector:
+    app: httpd
+  ports:
+    - name: httpd
+      targetPort: 80
+      port: 80

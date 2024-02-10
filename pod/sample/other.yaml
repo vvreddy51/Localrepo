@@ -7,8 +7,14 @@ spec:
   containers:
     - name: httpd
       image: httpd:2.4
-      ports:
-        - containerPort: 80
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
     - name: tomcat
       image: tomcat:11.0
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
       

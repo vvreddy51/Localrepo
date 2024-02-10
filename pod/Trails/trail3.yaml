@@ -16,6 +16,8 @@ spec:
           value: vsh
         - name: MYSQL_PASSWORD
           value: a123
+      ports:
+        - containerPort: 3306
       resources:
         limits:
           cpu: 500m

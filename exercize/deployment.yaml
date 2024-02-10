@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vsh
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels: 
+        app: vsh        
+        version: "1.1"
+    spec:
+      containers:
+        - name: trail
+          image: nginx
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+             path: /
+             port: 80
+          readinessProbe:
+            httpGet:
+             path: /
+             port: 80
+          volumeMounts:
+            - mountPath: /mnt
+              name: httpd-vol
+      volumes:
+        - name: httpd-vol
+          emptyDir: []
+            
+

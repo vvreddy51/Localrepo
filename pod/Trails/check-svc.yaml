@@ -47,9 +47,6 @@ spec:
     containers:
       - name: nginx
         image: nginx
-        args: 
-          - sleep
-          - 1d
         ports:
           - containerPort: 80
         livenessProbe:
