@@ -38,3 +38,9 @@ spec:
               memory: 500Mi
         - name: apache
           image: httpd:2.4
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+
+      
