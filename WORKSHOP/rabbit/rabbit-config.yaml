@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rqconfigmap
+data:
+  RABBITMQ_CONFIG_FILE: /var/lib/rabbitmq:/etc/pitstop

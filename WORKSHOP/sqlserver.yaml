@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sql
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+   matchLabels:
+    app: sql
+  serviceName: sql-svc
+  template:
+   metadata:
+    labels: 
+      app: sql
+      version: "1.0"
+   spec:
+    containers:
+      - name: sqlserver
+        image: mcr.microsoft.com/azure-sql-edge
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 1433
+        env:
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: MSSQL_PID
+            value: Developer
+          - name: SA_PASSWORD
+            value: 8jkGh47hnDw89Haq8LN2
+        volumeMounts:
+          - name: sqlserverdata
+            mountPath: /var/opt/mssql   
+  volumeClaimTemplates:
+    - metadata:
+        name: sqlserverdata
+      spec:
+        resources:
+          requests:
+            storage: 4Gi
+        storageClassName: managed-csi
+        accessModes:
+          - ReadWriteOnce
+  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-svc
+spec:
+  clusterIP: None
+  selector:
+    app: sql
+  ports:
+    - name: sql
+      port: 1434
+      targetPort: 1433
+  
+
+
+  
+
+        

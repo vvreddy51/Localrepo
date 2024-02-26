@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: vehicleapi-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: vehicleapi     
+  template: 
+   metadata:
+    labels:
+      app: vehicleapi
+      version: "1.0"
+   spec:
+     containers:
+       - name: vehicleapi
+         image: pitstop/vehiclemanagementapi:1.0
+         ports:
+           - containerPort: 5000
+         env:
+           - name: ASPNETCORE_ENVIRONMENT
+             value: Production
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vehicleapi-svc
+spec:
+  selector:
+    app: vehicleapi
+  ports:
+    - name: vehicleapi 
+      port: 5000
+      targetPort: 5000
+    

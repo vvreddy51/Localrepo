@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: log-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: log      
+  template: 
+   metadata:
+    labels:
+      app: log
+      version: "1.0"
+   spec:  
+     containers:
+       - name: logserver
+         image: datalust/seq:latest
+         ports:
+           - containerPort: 80
+         env:
+           - name: ACCEPT_EULA
+             value: Y"
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-svc
+spec:
+  type: NodePort
+  selector:
+    app: log
+  ports:
+    - name: log
+      port: 5341
+      targetPort: 80
+      nodePort: 31000
+    

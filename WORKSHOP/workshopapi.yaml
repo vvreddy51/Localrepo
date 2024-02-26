@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: workshopapi-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: workshopapi     
+  template: 
+   metadata:
+    labels:
+      app: workshopapi
+      version: "1.0"
+   spec:
+     containers:
+       - name: workshopapi
+         image: pitstop/workshopmanagementapi:1.0
+         ports:
+           - containerPort: 5200
+         env:
+           - name: ASPNETCORE_ENVIRONMENT
+             value: Production
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: workshopapi-svc
+spec:
+  selector:
+    app: workshopapi
+  ports:
+    - name: workshopapi 
+      port: 5200
+      targetPort: 5200
+    

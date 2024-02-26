@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: auditlogsvc-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: auditlogsvc     
+  template: 
+   metadata:
+    labels:
+      app: auditlogsvc
+      version: "1.0"
+   spec:
+     containers:
+       - name: auditlogsvc
+         image: pitstop/auditlogservice:1.0
+         ports:
+           - containerPort: 5000
+         env:
+           - name: DOTNET_ENVIRONMENT
+             value: Production
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+

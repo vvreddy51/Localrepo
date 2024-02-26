@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: customerapi-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: customerapi     
+  template: 
+   metadata:
+    labels:
+      app: customerapi
+      version: "1.0"
+   spec:
+     containers:
+       - name: customerapi
+         image: pitstop/customermanagementapi:1.0
+         ports:
+           - containerPort: 5100
+         env:
+           - name: ASPNETCORE_ENVIRONMENT
+             value: Production
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customerapi-svc
+spec:
+  selector:
+    app: customerapi
+  ports:
+    - name: customerapi 
+      port: 5100
+      targetPort: 5100
+    
