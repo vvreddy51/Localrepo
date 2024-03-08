@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: notification-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: notificationservice   
+  template: 
+   metadata:
+    labels:
+      app: notificationservice
+      version: "1.0"
+   spec:
+     containers:
+       - name: notificationservice
+         image: pitstop/notificationservice:1.0
+         env:
+           - name: DOTNET_ENVIRONMENT
+             value: Production
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+

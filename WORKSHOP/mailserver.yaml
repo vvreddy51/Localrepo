@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector: 
     matchLabels:
-      app: mail      
+      app: mailserver      
   template: 
    metadata:
     labels:
-      app: mail
+      app: mailserver
       version: "1.0"
    spec:
      containers:
@@ -34,11 +34,11 @@ metadata:
   name: mailserver
 spec:
   selector:
-    app: mail
+    app: mailserver
   ports:
-    - name: mail
+    - name: mailserver
       port: 25
       targetPort: 25
-    - name: mail1 
+    - name: mailserver1 
       port: 4000
       targetPort: 80

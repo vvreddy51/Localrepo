@@ -8,15 +8,15 @@ spec:
   replicas: 1
   selector: 
     matchLabels:
-      app: auditlogsvc     
+      app: auditlogservice    
   template: 
    metadata:
     labels:
-      app: auditlogsvc
+      app: auditlogservice
       version: "1.0"
    spec:
      containers:
-       - name: auditlogsvc
+       - name: auditlogservice
          image: pitstop/auditlogservice:1.0
          ports:
            - containerPort: 5000

@@ -2,46 +2,45 @@
 apiVersion: apps/v1  
 kind: Deployment
 metadata:
-  name: log-deploy
+  name: webapp-deploy
 spec:
   minReadySeconds: 10
   replicas: 1
   selector: 
     matchLabels:
-      app: logserver     
+      app: webapp  
   template: 
    metadata:
     labels:
-      app: logserver
+      app: webapp
       version: "1.0"
-   spec:  
+   spec:
      containers:
-       - name: logserver
-         image: datalust/seq:latest
+       - name: webapp
+         image: pitstop/webapp:1.0
          ports:
-           - containerPort: 80
+          - containerPort: 7005
          env:
-           - name: ACCEPT_EULA
-             value: Y"
+           - name: DOTNET_ENVIRONMENT
+             value: Production
          resources:
           limits:
            cpu: 500m
            memory: 256Mi
-     restartPolicy: Always
-
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: log-svc
+  name: webapp
 spec:
   type: NodePort
   selector:
-    app: logserver
+    app: webapp
   ports:
-    - name: log
-      port: 5341
-      targetPort: 80
-      nodePort: 31000
-    
+    - name: webapp
+      port: 7005
+      targetPort: 7005
+      nodePort: 31005
+
+
+

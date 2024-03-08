@@ -2,21 +2,21 @@
 apiVersion: apps/v1  
 kind: Deployment
 metadata:
-  name: vehicleapi-deploy
+  name: vehiclemanagementapi-deploy
 spec:
   minReadySeconds: 10
   replicas: 1
   selector: 
     matchLabels:
-      app: vehicleapi     
+      app: vehiclemanagementapi     
   template: 
    metadata:
     labels:
-      app: vehicleapi
+      app: vehiclemanagementapi
       version: "1.0"
    spec:
      containers:
-       - name: vehicleapi
+       - name: vehiclemanagementapi
          image: pitstop/vehiclemanagementapi:1.0
          ports:
            - containerPort: 5000
@@ -35,10 +35,12 @@ kind: Service
 metadata:
   name: vehicleapi-svc
 spec:
+  type: NodePort
   selector:
-    app: vehicleapi
+    app: vehiclemanagementapi
   ports:
-    - name: vehicleapi 
+    - name: vehiclemanagementapi 
       port: 5000
       targetPort: 5000
+      nodePort: 31002
     

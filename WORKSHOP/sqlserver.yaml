@@ -1,19 +1,30 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqlconfigmap
+data: 
+  agreement: "Y"
+  id: Developer
+  password: 8jkGh47hnDw89Haq8LN2
+
+
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: sql
+  name: sqlserver
 spec:
   minReadySeconds: 10
   replicas: 1
   selector:
    matchLabels:
-    app: sql
+    app: sqlserver
   serviceName: sql-svc
   template:
    metadata:
     labels: 
-      app: sql
+      app: sqlserver
       version: "1.0"
    spec:
     containers:
@@ -24,24 +35,43 @@ spec:
           - containerPort: 1433
         env:
           - name: ACCEPT_EULA
-            value: "Y"
+            valueFrom:
+            configMapKeyRef:
+              name: sqlconfigmap
+              key: agreement
           - name: MSSQL_PID
-            value: Developer
+            valueFrom:
+            configMapKeyRef:
+              name: sqlconfigmap
+              key: id
           - name: SA_PASSWORD
-            value: 8jkGh47hnDw89Haq8LN2
+            valueFrom:
+            configMapKeyRef:
+              name: sqlconfigmap
+              key: password
         volumeMounts:
           - name: sqlserverdata
             mountPath: /var/opt/mssql   
-  volumeClaimTemplates:
-    - metadata:
-        name: sqlserverdata
-      spec:
-        resources:
-          requests:
-            storage: 4Gi
-        storageClassName: managed-csi
-        accessModes:
-          - ReadWriteOnce
+    volumes:
+      - name: sqlserverdata
+        persistentVolumeClaim:
+          claimName: sqlserver
+          readOnly: false
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqlserver
+spec:
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: managed-csi
+  accessModes:
+    - ReadWriteOnce
+       
+ 
   
 ---
 apiVersion: v1
@@ -49,11 +79,10 @@ kind: Service
 metadata:
   name: sql-svc
 spec:
-  clusterIP: None
   selector:
-    app: sql
+    app: sqlserver
   ports:
-    - name: sql
+    - name: sqlserver
       port: 1434
       targetPort: 1433
   

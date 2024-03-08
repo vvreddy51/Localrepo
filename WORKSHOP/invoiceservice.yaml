@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: invoice-deploy
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: invoiceservice   
+  template: 
+   metadata:
+    labels:
+      app: invoiceservice
+      version: "1.0"
+   spec:
+     containers:
+       - name: invoiceservice
+         image: pitstop/invoiceservice:1.0
+         env:
+           - name: DOTNET_ENVIRONMENT
+             value: Production
+         resources:
+          limits:
+           cpu: 500m
+           memory: 256Mi
+
+
+

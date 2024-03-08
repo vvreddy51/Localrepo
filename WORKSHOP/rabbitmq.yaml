@@ -43,18 +43,24 @@ spec:
             mountPath: /var/lib/rabbitmq:/etc/pitstop/   
     volumes:
       - name: rabbitmqdata
-        configMap:
-          name: rqconfigmap
-  volumeClaimTemplates:
-    - metadata:
-        name: rabbitmqdata
-      spec:
-        resources:
-          requests:
-            storage: 4Gi
-        storageClassName: managed-csi
-        accessModes:
-          - ReadWriteOnce
+        persistentVolumeClaim:
+          claimName: rabbitmq
+          readOnly: false
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rabbitmq
+spec:
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: managed-csi
+  accessModes:
+    - ReadWriteOnce
+
   
 ---
 apiVersion: v1
